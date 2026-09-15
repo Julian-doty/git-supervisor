@@ -1,0 +1,10 @@
+# Core (both backends)
+requests>=2.31
+python-dotenv>=1.0  # optional convenience — lets .env be picked up automatically
+
+# Spreadsheet output
+openpyxl>=3.1      # .xlsx
+odfpy>=1.4          # .ods
+
+# Cloud backend only (git_supervisor_cloud.py) — not needed for local-only use
+anthropic>=0.40
