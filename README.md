@@ -53,9 +53,15 @@ spreadsheet (.xlsx or .ods)
 
 ## Setup
 
+For the local (Ollama) backend, a full step-by-step walkthrough — install
+through first run, and what to do after a restart — is in
+[docs/GETTING_STARTED_LOCAL.md](docs/GETTING_STARTED_LOCAL.md), covering
+Linux, macOS, and Windows. Short version:
+
 ```bash
 git clone <this repo>
 cd git-supervisor
+python3 -m venv .venv && source .venv/bin/activate   # Windows: python -m venv .venv && .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 cp .env.example .env
 # edit .env — fill in GITHUB_TOKEN, and ANTHROPIC_API_KEY if using the cloud backend
@@ -69,7 +75,9 @@ fast between the search call and one README fetch per result.
 
 ### Local backend
 
-Requires [Ollama](https://ollama.com) installed and running.
+Requires [Ollama](https://ollama.com) installed and running. See
+[docs/GETTING_STARTED_LOCAL.md](docs/GETTING_STARTED_LOCAL.md) for the full
+walkthrough per OS.
 
 ```bash
 ollama create git-supervisor -f modelfiles/Modelfile.git-supervisor
@@ -77,6 +85,11 @@ python git_supervisor_local.py "something to track habits in Python"
 ```
 
 ### Cloud backend
+
+No local model to build, but it bills real money per run — see
+[docs/GETTING_STARTED_CLOUD.md](docs/GETTING_STARTED_CLOUD.md) for the full
+walkthrough including current pricing and how to keep costs predictable
+while testing.
 
 ```bash
 pip install anthropic   # already in requirements.txt
@@ -148,6 +161,16 @@ ollama create git-supervisor -f modelfiles/Modelfile.git-supervisor
 
 The cloud backend reads `prompts/system_prompt.md` directly at runtime — no
 regeneration step needed on that side.
+
+## Using a different model or runner
+
+Built around `qwen3:14b` on Ollama, but not locked to either. Swapping in
+a different model (e.g. DeepSeek) while staying on Ollama is a one-line
+config change; adding support for a different local runner (LM Studio,
+vLLM, llama.cpp-server) means writing one small backend class, with
+nothing else in the repo needing to change. See
+[docs/CHANGEABILITY.md](docs/CHANGEABILITY.md) for exactly what to touch
+and where, plus the honest difficulty/caveats for each.
 
 ## Platform support
 
