@@ -7,6 +7,12 @@ tested. **If you run this on Windows or macOS, please open an issue saying
 what worked and what didn't** — that's how those get upgraded from "should
 work" to "confirmed."
 
+For a full step-by-step install-and-run walkthrough (local/Ollama backend
+only) on all three platforms, see
+[GETTING_STARTED_LOCAL.md](GETTING_STARTED_LOCAL.md). This file covers the
+narrower differences — mainly environment variables and known friction
+points — that doc doesn't repeat in as much depth.
+
 ## Linux (tested — primary development platform)
 
 Developed and run on Linux Mint 22.3 (Cinnamon), Python 3.x, Ollama

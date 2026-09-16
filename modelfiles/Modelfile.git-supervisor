@@ -1,6 +1,6 @@
 # Purpose: Git Supervisor — GitHub research & implementation advisor
 # Base model: qwen3:14b
-# Generated: 2026-09-15 — DO NOT EDIT THE SYSTEM BLOCK BY HAND.
+# Generated: 2026-09-16 — DO NOT EDIT THE SYSTEM BLOCK BY HAND.
 #   Source of truth is prompts/system_prompt.md; run
 #   `python tools/build_modelfile.py` after editing it to regenerate this file.
 # Create: ollama create git-supervisor -f modelfiles/Modelfile.git-supervisor

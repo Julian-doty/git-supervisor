@@ -81,6 +81,27 @@ def build_analysis_prompt(topic: str, repos: list[RepoResult]) -> str:
     )
 
 
+_FENCE_LINE_RE = re.compile(r"^\s*`{2,3}\w*\s*$")
+
+
+def _clean_field(text: str) -> str:
+    """
+    Models sometimes wrap structured output in markdown code fences despite
+    being told not to (imitating the fences used to illustrate the format
+    in the system prompt). A stray ``` line sitting between one block's
+    last field and the next block's "### REPO:" marker gets swallowed into
+    that field by the regex below, since it has nowhere else to go. Strip
+    any line that's purely a code-fence marker, and any leftover fence
+    characters stuck to the start/end of the text, rather than trusting
+    the model to never do this.
+    """
+    lines = [ln for ln in text.splitlines() if not _FENCE_LINE_RE.match(ln)]
+    cleaned = "\n".join(lines).strip()
+    cleaned = re.sub(r"`{2,3}\s*$", "", cleaned).strip()
+    cleaned = re.sub(r"^\s*`{2,3}", "", cleaned).strip()
+    return cleaned
+
+
 def parse_analysis_response(response: str, repos: list[RepoResult]) -> list[dict]:
     by_name = {r.full_name: r for r in repos}
     rows = []
@@ -104,10 +125,10 @@ def parse_analysis_response(response: str, repos: list[RepoResult]) -> list[dict
             "open_issues": repo.open_issues,
             "topics": repo.topics,
             "description": repo.description,
-            "relevance": match.group("relevance").strip(),
-            "maintenance": match.group("maintenance").strip(),
-            "implementation": match.group("implementation").strip(),
-            "verdict": match.group("verdict").strip(),
+            "relevance": _clean_field(match.group("relevance")),
+            "maintenance": _clean_field(match.group("maintenance")),
+            "implementation": _clean_field(match.group("implementation")),
+            "verdict": _clean_field(match.group("verdict")),
         })
 
     missing = [r.full_name for r in repos if r.full_name not in seen]
