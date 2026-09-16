@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="git-supervisor — give it a topic, it searches GitHub, judges every repo with AI, and writes the results into a spreadsheet" width="100%">
+</p>
+
 # Git Supervisor
 
 Give it a topic — "something to track habits in Python," or a raw GitHub
